@@ -59,6 +59,8 @@ dependencies {
   compile 'io.reactivex:rxandroid:1.2.1'
   compile 'io.reactivex:rxjava:1.1.6'
 
+  //RxBle
+  compile "com.polidea.rxandroidble:rxandroidble:1.0.1"
 
   //DI and VI
   compile 'com.google.dagger:dagger:2.9'
