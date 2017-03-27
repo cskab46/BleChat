@@ -50,25 +50,16 @@ dependencies {
 
   compile "com.android.support:appcompat-v7:$supportLibraryVersion"
   compile 'com.android.support.constraint:constraint-layout:1.0.0'
-  testCompile 'junit:junit:4.12'
-
-  //Timber for Log
   compile 'com.jakewharton.timber:timber:4.5.1'
-
-  //RX
   compile 'io.reactivex:rxandroid:1.2.1'
   compile 'io.reactivex:rxjava:1.1.6'
-
-  //RxBle
-  compile "com.polidea.rxandroidble:rxandroidble:1.0.1"
-
-  //DI and VI
+  compile 'com.polidea.rxandroidble:rxandroidble:1.0.1'
   compile 'com.google.dagger:dagger:2.9'
   compile 'com.jakewharton:butterknife:8.5.1'
-
-  provided 'org.glassfish:javax.annotation:10.0-b28'
-  provided 'javax.annotation:jsr250-api:1.0'
-
+  compile 'com.android.support:support-v4:25.3.0'
+  testCompile 'junit:junit:4.12'
   annotationProcessor 'com.google.dagger:dagger-compiler:2.9'
   annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+  provided 'org.glassfish:javax.annotation:10.0-b28'
+  provided 'javax.annotation:jsr250-api:1.0'
 }

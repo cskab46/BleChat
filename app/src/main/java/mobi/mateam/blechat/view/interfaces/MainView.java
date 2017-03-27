@@ -6,7 +6,7 @@ public interface MainView extends MvpView {
 
   void showConnectionDialog();
 
-  void showConnectionStatus();
+  void showConnectionStatus(boolean isConnected);
 
   void showLoading();
 

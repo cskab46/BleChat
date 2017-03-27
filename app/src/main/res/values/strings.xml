@@ -1,3 +1,8 @@
 <resources>
   <string name="app_name">BLE Chat</string>
+
+  <!-- TODO: Remove or change this placeholder text -->
+  <string name="hello_blank_fragment">Hello blank fragment</string>
+  <string name="status_connected">Connected</string>
+  <string name="status_disconected">Disconnected</string>
 </resources>
