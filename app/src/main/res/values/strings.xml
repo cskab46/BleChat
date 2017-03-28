@@ -5,4 +5,15 @@
   <string name="hello_blank_fragment">Hello blank fragment</string>
   <string name="status_connected">Connected</string>
   <string name="status_disconected">Disconnected</string>
+  <string name="btn_my_chats_text">My chats</string>
+  <string name="btn_connections_text">Connections</string>
+  <string name="connection_dialog_title">Connections</string>
+  <string name="connection_empty_state_text">Click scan button</string>
+  <string name="btn_scan_text">Scan</string>
+  <string name="btn_cancel_text">Cancel Scanning</string>
+  <string name="message_error_scaning_base">Unable to start scanning</string>
+  <string name="message_error_bluethooth_not_avalible">Bluetooth is not available</string>
+  <string name="message_error_bluethooth_disactivated">Enable bluetooth and try again</string>
+  <string name="message_error_perrmision_missing">On Android 6.0 location permission is required. Implement Runtime Permissions</string>
+  <string name="message_error_location_permission">Location services needs to be enabled on Android 6.0</string>
 </resources>

@@ -1,5 +1,6 @@
 package mobi.mateam.blechat.view.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
@@ -16,7 +17,7 @@ public class BaseFragment extends Fragment implements MvpView {
     return getActivity().getApplicationContext();
   }
 
-  @Override public Context getActivityContext() {
+  @Override public Activity getActivityContext() {
     return getActivity();
   }
 

@@ -1,5 +1,6 @@
 package mobi.mateam.blechat.view.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
@@ -12,7 +13,7 @@ class BaseMvpActivity extends AppCompatActivity implements MvpView {
     return getApplicationContext();
   }
 
-  @Override public Context getActivityContext() {
+  @Override public Activity getActivityContext() {
     return this;
   }
 

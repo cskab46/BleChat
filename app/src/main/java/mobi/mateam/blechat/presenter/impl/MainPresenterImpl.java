@@ -1,4 +1,4 @@
-package mobi.mateam.blechat.presenter;
+package mobi.mateam.blechat.presenter.impl;
 
 import com.polidea.rxandroidble.RxBleClient;
 import mobi.mateam.blechat.eventBus.EventBus;

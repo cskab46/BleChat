@@ -7,18 +7,22 @@ import android.view.ViewGroup;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import java.util.ArrayList;
 import mobi.mateam.blechat.R;
+import mobi.mateam.blechat.model.pojo.Message;
+import mobi.mateam.blechat.presenter.interfaces.ChatPresenter;
+import mobi.mateam.blechat.view.interfaces.ChatView;
 
-public class StartFragment extends BaseFragment {
+public class ChatFragment extends BaseFragment implements ChatView {
 
   private Unbinder unbinder;
-
-  public StartFragment() {
+  private static ChatPresenter presenter;
+  public ChatFragment() {
     // Required empty public constructor
   }
 
-  public static StartFragment newInstance() {
-    return new StartFragment();
+  public static ChatFragment newInstance() {
+    return new ChatFragment();
   }
 
   @Override public void onCreate(Bundle savedInstanceState) {
@@ -26,10 +30,18 @@ public class StartFragment extends BaseFragment {
   }
 
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.fragment_start, container, false);
+    View view = inflater.inflate(R.layout.fragment_chat, container, false);
     unbinder = ButterKnife.bind(this, view);
+    setPresenter();
 
     return view;
+  }
+
+  private void setPresenter() {
+    if (presenter == null) {
+      presenter = getAppComponent().getChatPresenter();
+    }
+    presenter.attachView(this);
   }
 
   @OnClick(R.id.btn_start_chats) public void onChatsClick(){
@@ -40,10 +52,20 @@ public class StartFragment extends BaseFragment {
       ConnectionDialog.newInstance().show(getFragmentManager(), "ConnectionDialog");
   }
 
-  @Override public void onDestroyView() {
-    super.onDestroyView();
-    unbinder.unbind();
+  @Override public void showChatMessages(ArrayList<Message> messages) {
+
   }
 
+  @Override public void addChatMessage(Message message) {
 
+  }
+
+  @Override public void onDestroyView() {
+    super.onDestroyView();
+    presenter.detachView();
+    unbinder.unbind();
+    if (isRemoving()) {
+      presenter = null;
+    }
+  }
 }

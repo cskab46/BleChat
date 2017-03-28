@@ -1,4 +1,4 @@
-package mobi.mateam.blechat.presenter;
+package mobi.mateam.blechat.presenter.impl;
 
 import mobi.mateam.blechat.presenter.interfaces.BasePresenter;
 import mobi.mateam.blechat.view.interfaces.MvpView;
