@@ -6,4 +6,6 @@ public interface Navigator {
   void onCreate(MainActivity mainActivity);
 
   void onDestroy();
+
+  void showChatView(String macAddress);
 }

@@ -8,4 +8,6 @@ public interface ChatPresenter extends BasePresenter<ChatView> {
   void sendMessage(Message message);
 
   void onNewIncomingMessage(Message message);
+
+  void setMacAddress(String macAddress);
 }

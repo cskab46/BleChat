@@ -2,13 +2,13 @@ package mobi.mateam.blechat.view.activity;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
+import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import mobi.mateam.blechat.App;
 import mobi.mateam.blechat.di.component.AppComponent;
 import mobi.mateam.blechat.view.interfaces.MvpView;
 
-class BaseMvpActivity extends AppCompatActivity implements MvpView {
+class BaseMvpActivity extends RxAppCompatActivity implements MvpView {
   @Override public Context getAppContext() {
     return getApplicationContext();
   }

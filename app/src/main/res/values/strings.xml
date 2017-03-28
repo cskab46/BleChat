@@ -16,4 +16,5 @@
   <string name="message_error_bluethooth_disactivated">Enable bluetooth and try again</string>
   <string name="message_error_perrmision_missing">On Android 6.0 location permission is required. Implement Runtime Permissions</string>
   <string name="message_error_location_permission">Location services needs to be enabled on Android 6.0</string>
+  <string name="btn_send_text">Send</string>
 </resources>

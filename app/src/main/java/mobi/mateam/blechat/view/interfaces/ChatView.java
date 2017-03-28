@@ -8,4 +8,6 @@ public interface ChatView extends MvpView {
   void showChatMessages(ArrayList<Message> messages);
 
   void addChatMessage(Message message);
+
+  void setIsSendButtonEnabled(boolean connected);
 }
