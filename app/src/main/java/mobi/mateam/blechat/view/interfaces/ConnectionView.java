@@ -1,10 +1,10 @@
 package mobi.mateam.blechat.view.interfaces;
 
-import com.polidea.rxandroidble.RxBleScanResult;
+import android.bluetooth.le.ScanResult;
 
 public interface ConnectionView extends MvpView {
 
-  void showConnections(RxBleScanResult rxBleScanResult);
+  void showConnection(ScanResult rxBleScanResult);
 
   void showEmptyState();
 

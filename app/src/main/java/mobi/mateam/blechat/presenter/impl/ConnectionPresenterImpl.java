@@ -1,29 +1,23 @@
 package mobi.mateam.blechat.presenter.impl;
 
 import android.Manifest;
-import android.support.annotation.StringRes;
-import com.polidea.rxandroidble.RxBleClient;
-import com.polidea.rxandroidble.RxBleScanResult;
-import com.polidea.rxandroidble.exceptions.BleScanException;
+import android.bluetooth.le.ScanResult;
 import com.tbruyelle.rxpermissions.RxPermissions;
-import mobi.mateam.blechat.R;
-import mobi.mateam.blechat.eventBus.EventBus;
-import mobi.mateam.blechat.eventBus.OnDeviceClickEvent;
+import mobi.mateam.blechat.ble.ChatProvider;
+import mobi.mateam.blechat.bus.EventBus;
+import mobi.mateam.blechat.bus.event.OnDeviceClickEvent;
 import mobi.mateam.blechat.presenter.interfaces.ConnectionPresenter;
 import mobi.mateam.blechat.view.interfaces.ConnectionView;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
 import timber.log.Timber;
 
 public class ConnectionPresenterImpl extends BasePresenterImpl<ConnectionView> implements ConnectionPresenter {
-
-  private final RxBleClient rxBleClient;
   private final EventBus eventBus;
-  private Subscription scanSubscription;
+  private final ChatProvider chatProvider;
   private RxPermissions rxPermissions;
+  private boolean isScanning;
 
-  public ConnectionPresenterImpl(EventBus eventBus, RxBleClient rxBleClient) {
-    this.rxBleClient = rxBleClient;
+  public ConnectionPresenterImpl(EventBus eventBus, ChatProvider chatProvider) {
+    this.chatProvider = chatProvider;
     this.eventBus = eventBus;
   }
 
@@ -37,7 +31,11 @@ public class ConnectionPresenterImpl extends BasePresenterImpl<ConnectionView> i
     rxPermissions.request(Manifest.permission.ACCESS_FINE_LOCATION).subscribe(granted -> {
       if (granted) { // Always true pre-M
         Timber.d("ACCESS_FINE_LOCATION permission is granted");
-        scan();
+        isScanning = true;
+        scanDevices();
+        if (isViewAttached()){
+          getView().showCancelButton();
+        }
       } else {
         if (isViewAttached()) {
           getView().showMessage("Location permission is required");
@@ -46,92 +44,63 @@ public class ConnectionPresenterImpl extends BasePresenterImpl<ConnectionView> i
     });
   }
 
-  private void scan() {
-    getView().showLoading();
-    scanSubscription = rxBleClient.scanBleDevices()
-        .observeOn(AndroidSchedulers.mainThread())
-        .doOnUnsubscribe(this::clearSubscription)
-        .subscribe(this::addScanResult, this::onScanFailure);
-
-    updateUIState();
+  private void scanDevices() {
+    try {
+      getView().showLoading();
+      isScanning = true;
+      chatProvider.scanDevices(scanResult -> {
+        if (isViewAttached()) {
+          getView().showConnection(scanResult);
+        }
+        updateUIState();
+      });
+    } catch (Throwable e) {
+      onScanFailure(e);
+    }
   }
 
   private void updateUIState() {
     if (isViewAttached()) {
-      if (isScanning()) {
+      if (isScanning) {
         getView().showConnectionState();
         getView().showCancelButton();
+        getView().showLoading();
       } else {
         getView().showEmptyState();
         getView().showScanButton();
+        getView().hideLoading();
       }
     }
   }
 
   private void onScanFailure(Throwable throwable) {
     Timber.e(throwable);
+    isScanning = false;
     updateUIState();
 
     if (isViewAttached()) {
       getView().showEmptyState();
-      if (throwable instanceof BleScanException) {
-        showBleScanException((BleScanException) throwable);
-      }
+      getView().showError(throwable);
     }
   }
 
-  private void showBleScanException(BleScanException bleScanException) {
-
-    @StringRes int messageRes;
-    switch (bleScanException.getReason()) {
-      case BleScanException.BLUETOOTH_NOT_AVAILABLE:
-        messageRes = R.string.message_error_bluethooth_not_avalible;
-        break;
-      case BleScanException.BLUETOOTH_DISABLED:
-        messageRes = R.string.message_error_bluethooth_disactivated;
-        break;
-      case BleScanException.LOCATION_PERMISSION_MISSING:
-        messageRes = R.string.message_error_perrmision_missing;
-        break;
-      case BleScanException.LOCATION_SERVICES_DISABLED:
-        messageRes = R.string.message_error_location_permission;
-        break;
-      case BleScanException.BLUETOOTH_CANNOT_START:
-      default:
-        messageRes = R.string.message_error_scaning_base;
-        break;
-    }
-
-    String message = getView().getAppContext().getString(messageRes);
-    getView().showMessage(message);
-  }
-
-  private void addScanResult(RxBleScanResult rxBleScanResult) {
+  private void stopScanning() {
+    isScanning = false;
+    chatProvider.stopScanning();
     if (isViewAttached()) {
-      getView().hideLoading();
-      getView().showConnections(rxBleScanResult);
-    }
-  }
-
-  private void clearSubscription() {
-    scanSubscription.unsubscribe();
-    if (isViewAttached()) {
-      getView().showConnections(null);
+      getView().showConnection(null);
       getView().showEmptyState();
     }
   }
 
-  @Override public void onDeviceClick(RxBleScanResult bleScanResult) {
+  @Override public void onDeviceClick(ScanResult bleScanResult) {
+    stopScanning();
     eventBus.post(new OnDeviceClickEvent(bleScanResult));
   }
 
   @Override public void onCancelClick() {
-    clearSubscription();
-    scanSubscription = null;
-    updateUIState();
-  }
+    stopScanning();
 
-  private boolean isScanning() {
-    return scanSubscription != null;
+    updateUIState();
   }
 }

@@ -6,7 +6,7 @@
   <string name="status_connected">Connected</string>
   <string name="status_disconected">Disconnected</string>
   <string name="btn_my_chats_text">My chats</string>
-  <string name="btn_connections_text">Connections</string>
+  <string name="btn_connections_text">Join to chat</string>
   <string name="connection_dialog_title">Connections</string>
   <string name="connection_empty_state_text">Click scan button</string>
   <string name="btn_scan_text">Scan</string>
@@ -17,4 +17,6 @@
   <string name="message_error_perrmision_missing">On Android 6.0 location permission is required. Implement Runtime Permissions</string>
   <string name="message_error_location_permission">Location services needs to be enabled on Android 6.0</string>
   <string name="btn_send_text">Send</string>
+  <string name="chat_uuid">af44319c-148c-11e7-93ae-92361f002671</string>
+  <string name="btn_start_new_chat_text">Start new chat</string>
 </resources>

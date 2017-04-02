@@ -5,7 +5,7 @@ import android.content.Context;
 import dagger.Module;
 import dagger.Provides;
 import javax.inject.Singleton;
-import mobi.mateam.blechat.eventBus.EventBus;
+import mobi.mateam.blechat.bus.EventBus;
 
 @Module public class AppModule {
   Application application;

@@ -6,13 +6,13 @@ import mobi.mateam.blechat.di.component.AppComponent;
 
 public interface MvpView {
 
-  public Context getAppContext();
+  Context getAppContext();
 
-  public Activity getActivityContext();
+  Activity getActivityContext();
 
-  public void showError(Throwable error);
+  void showError(Throwable error);
 
-  public void showMessage(String text);
+  void showMessage(String text);
 
   AppComponent getAppComponent();
 }

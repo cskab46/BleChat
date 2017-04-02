@@ -2,14 +2,8 @@ package mobi.mateam.blechat.view.interfaces;
 
 public interface MainView extends MvpView {
 
-  void showStartView();
+  void showTitle(String isConnected);
 
-  void showConnectionDialog();
 
-  void showConnectionStatus(boolean isConnected);
-
-  void showLoading();
-
-  void hideLoading();
-
+  void showSubTitle(String subTitle);
 }

@@ -1,6 +1,5 @@
 package mobi.mateam.blechat.view.activity;
 
-import android.app.ActionBar;
 import android.os.Bundle;
 import mobi.mateam.blechat.R;
 import mobi.mateam.blechat.presenter.interfaces.MainPresenter;
@@ -20,6 +19,9 @@ public class MainActivity extends BaseMvpActivity implements MainView {
     setNavigator();
   }
 
+  /**
+   * Inject presenter. presenter won't be null just in case of orientation change
+   */
   private void setPresenter() {
     if (presenter == null) {
       presenter = getAppComponent().getMainPresenter();
@@ -27,41 +29,47 @@ public class MainActivity extends BaseMvpActivity implements MainView {
     presenter.attachView(this);
   }
 
+  /**
+   * Navigator - the field of presenter and will restore state of activity;
+   */
   private void setNavigator() {
     navigator = presenter.getNavigator();
-    navigator.onCreate(MainActivity.this);
+    navigator.onAttach(MainActivity.this);
   }
 
-  @Override public void showStartView() {
+  @Override public void showTitle(String title) {
 
-  }
-
-  @Override public void showConnectionDialog() {
-
-  }
-
-  @Override public void showConnectionStatus(boolean isConnected) {
-    int statusStringRes = isConnected? R.string.status_connected:R.string.status_disconected;
-    ActionBar actionBar = getActionBar();
+    android.support.v7.app.ActionBar actionBar = getSupportActionBar();
     if (actionBar != null) {
-      actionBar.setTitle(statusStringRes);
+      actionBar.setTitle(title);
     }
   }
 
-  @Override public void showLoading() {
-
+  @Override public void showSubTitle(String subTitle) {
+    android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+    if (actionBar != null) {
+      actionBar.setSubtitle(subTitle);
+    }
   }
 
-  @Override public void hideLoading() {
-
-  }
-
+  /**
+   * Presenter won't be destroy on orientation change
+   */
   @Override protected void onDestroy() {
+
     super.onDestroy();
     presenter.detachView();
     navigator.onDestroy();
     if (isFinishing()) {
       presenter = null;
     }
+  }
+
+  /**
+   * Navigator is responsible of back press event;
+   * Can by useful in case of different behaving with landscape orientation or tablets.
+   */
+  @Override public void onBackPressed() {
+    navigator.onBackPressed();
   }
 }

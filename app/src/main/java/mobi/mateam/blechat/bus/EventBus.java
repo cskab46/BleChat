@@ -1,4 +1,4 @@
-package mobi.mateam.blechat.eventBus;
+package mobi.mateam.blechat.bus;
 
 import rx.Observable;
 import rx.subjects.PublishSubject;

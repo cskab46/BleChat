@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android.support.v7.recyclerview="http://schemas.android.com/tools"
     android:orientation="vertical"
     >
 
@@ -12,6 +13,7 @@
       android:layout_height="match_parent"
       app:stackFromEnd="true"
       app:reverseLayout="true"
+      android.support.v7.recyclerview:stackFromEnd ="true"
       android:layout_weight="8"
       />
   <LinearLayout
@@ -19,23 +21,25 @@
       android:layout_height="wrap_content"
       android:layout_weight="1"
       android:orientation="horizontal"
-      android:weightSum="1"
       >
     <EditText
         android:id="@+id/et_message"
-        android:layout_width="250dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:layout_margin="10dp"
         android:inputType="textAutoCorrect"
+        android:layout_weight="1"
         />
     <Button
         android:id="@+id/btn_send_message"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="8dp"
+        android:enabled="false"
         android:text="@string/btn_send_text"
+        android:layout_weight="3"
         />
 
   </LinearLayout>

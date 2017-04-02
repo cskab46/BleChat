@@ -3,6 +3,7 @@ package mobi.mateam.blechat.di.component;
 import android.content.Context;
 import dagger.Component;
 import javax.inject.Singleton;
+import mobi.mateam.blechat.bus.EventBus;
 import mobi.mateam.blechat.di.module.AppModule;
 import mobi.mateam.blechat.di.module.BleModule;
 import mobi.mateam.blechat.di.module.ChatModule;
@@ -20,4 +21,6 @@ import mobi.mateam.blechat.presenter.interfaces.MainPresenter;
   ConnectionPresenter getConnectionPresenter();
 
   ChatPresenter getChatPresenter();
+
+  EventBus getEventBus();
 }

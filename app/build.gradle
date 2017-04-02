@@ -5,7 +5,7 @@ android {
   buildToolsVersion "25.0.2"
   defaultConfig {
     applicationId "mobi.mateam.blechat"
-    minSdkVersion 18
+    minSdkVersion 21
     targetSdkVersion 25
     versionCode 1
     versionName "1.0"
@@ -16,6 +16,10 @@ android {
       minifyEnabled false
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
+  }
+
+  testOptions {
+    unitTests.returnDefaultValues = true
   }
 
   configurations.all {
@@ -60,12 +64,13 @@ dependencies {
   compile 'io.reactivex:rxandroid:1.2.1'
   compile 'io.reactivex:rxjava:1.1.6'
   compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.3@aar'
-  compile 'com.polidea.rxandroidble:rxandroidble:1.0.1'
+  compile 'com.polidea.rxandroidble:rxandroidble:1.2.0'
   compile 'com.trello:rxlifecycle:1.0'
   compile 'com.trello:rxlifecycle-components:1.0'
   compile 'com.google.dagger:dagger:2.9'
   compile 'com.jakewharton:butterknife:8.5.1'
   testCompile 'junit:junit:4.12'
+  testCompile 'org.mockito:mockito-core:1.10.19'
   annotationProcessor 'com.google.dagger:dagger-compiler:2.9'
   annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
   provided 'org.glassfish:javax.annotation:10.0-b28'

@@ -1,5 +1,6 @@
 package mobi.mateam.blechat.view.fragment;
 
+import android.bluetooth.le.ScanResult;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +14,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import com.polidea.rxandroidble.RxBleScanResult;
 import mobi.mateam.blechat.R;
 import mobi.mateam.blechat.presenter.interfaces.ConnectionPresenter;
 import mobi.mateam.blechat.view.adapter.ScanResultsAdapter;
@@ -58,12 +58,12 @@ public class ConnectionDialog extends BaseDialogFragment implements ConnectionVi
     mRecyclerView.setAdapter(resultsAdapter);
     resultsAdapter.setOnAdapterItemClickListener(view -> {
       final int childAdapterPosition = mRecyclerView.getChildAdapterPosition(view);
-      final RxBleScanResult itemAtPosition = resultsAdapter.getItemAtPosition(childAdapterPosition);
+      final ScanResult itemAtPosition = resultsAdapter.getItemAtPosition(childAdapterPosition);
       onAdapterItemClick(itemAtPosition);
     });
   }
 
-  private void onAdapterItemClick(RxBleScanResult bleScanResult) {
+  private void onAdapterItemClick(ScanResult bleScanResult) {
     presenter.onDeviceClick(bleScanResult);
     dismiss();
   }
@@ -80,11 +80,11 @@ public class ConnectionDialog extends BaseDialogFragment implements ConnectionVi
     super.onDetach();
   }
 
-  @Override public void showConnections(RxBleScanResult rxBleScanResult) {
-    if (rxBleScanResult == null) {
+  @Override public void showConnection(ScanResult bleScanResult) {
+    if (bleScanResult == null) {
       resultsAdapter.clearScanResults();
     } else {
-      resultsAdapter.addScanResult(rxBleScanResult);
+      resultsAdapter.addScanResult(bleScanResult);
     }
   }
 

@@ -1,29 +1,24 @@
 package mobi.mateam.blechat.view.adapter;
 
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import java.text.SimpleDateFormat;
+import com.polidea.rxandroidble.RxBleDevice;
+import com.polidea.rxandroidble.RxBleScanResult;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
-import mobi.mateam.blechat.R;
-import mobi.mateam.blechat.model.pojo.Message;
 
-public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.ViewHolder> {
+@Deprecated
+public class RxScanResultsAdapter extends RecyclerView.Adapter<RxScanResultsAdapter.ViewHolder> {
 
-  //Compare by TimeStamp (long)
-  private static final Comparator<Message> SORTING_COMPARATOR =
-      (valLeft, valRight) -> valRight.time < valLeft.time ? -1 : valRight.time > valLeft.time ? 1 : 0;
-
-  private final List<Message> data = new ArrayList<>();
+  private static final Comparator<RxBleScanResult> SORTING_COMPARATOR = (lhs, rhs) -> lhs.getBleDevice().getMacAddress().compareTo(rhs.getBleDevice().getMacAddress());
+  private final List<RxBleScanResult> data = new ArrayList<>();
   private OnAdapterItemClickListener onAdapterItemClickListener;
   private final View.OnClickListener onClickListener = new View.OnClickListener() {
     @Override public void onClick(View v) {
@@ -34,17 +29,19 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
     }
   };
 
-  public ChatMessageAdapter() {
-  }
+  public void addScanResult(RxBleScanResult bleScanResult) {
+    // Not the best way to ensure distinct devices, just for sake on the demo.
 
-  public void addMessages(List<Message> messages) {
-    data.addAll(messages);
-    Collections.sort(data, SORTING_COMPARATOR);
-    notifyDataSetChanged();
-  }
+    for (int i = 0; i < data.size(); i++) {
 
-  public void addMessage(Message message) {
-    data.add(message);
+      if (data.get(i).getBleDevice().equals(bleScanResult.getBleDevice())) {
+        data.set(i, bleScanResult);
+        notifyItemChanged(i);
+        return;
+      }
+    }
+
+    data.add(bleScanResult);
     Collections.sort(data, SORTING_COMPARATOR);
     notifyDataSetChanged();
   }
@@ -54,7 +51,7 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
     notifyDataSetChanged();
   }
 
-  public Message getItemAtPosition(int childAdapterPosition) {
+  public RxBleScanResult getItemAtPosition(int childAdapterPosition) {
     return data.get(childAdapterPosition);
   }
 
@@ -63,25 +60,14 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
   }
 
   @Override public void onBindViewHolder(ViewHolder holder, int position) {
-    final Message message = data.get(position);
-
-
-    String messageLine = message.senderName + ": " + message.text;
-    String time = new SimpleDateFormat("HH:mm").format(new Date(message.time));
-    holder.line1.setText(messageLine);
-    holder.line2.setText(time);
-
-    if (message.isIncoming){
-      holder.line1.setGravity(Gravity.START);
-      holder.line2.setGravity(Gravity.START);
-    } else {
-      holder.line1.setGravity(Gravity.END);
-      holder.line2.setGravity(Gravity.END);
-    }
+    final RxBleScanResult rxBleScanResult = data.get(position);
+    final RxBleDevice bleDevice = rxBleScanResult.getBleDevice();
+    holder.line1.setText(String.format("%s (%s)", bleDevice.getMacAddress(), bleDevice.getName()));
+    holder.line2.setText(String.format("RSSI: %d", rxBleScanResult.getRssi()));
   }
 
   @Override public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-    final View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chat, parent, false);
+    final View itemView = LayoutInflater.from(parent.getContext()).inflate(android.R.layout.two_line_list_item, parent, false);
     itemView.setOnClickListener(onClickListener);
     return new ViewHolder(itemView);
   }
