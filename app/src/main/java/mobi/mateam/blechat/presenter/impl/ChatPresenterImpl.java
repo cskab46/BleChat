@@ -34,10 +34,7 @@ public class ChatPresenterImpl extends BasePresenterImpl<ChatView> implements Ch
   @Override public void attachView(ChatView chatView) {
     super.attachView(chatView);
     subscribeToEventBas();
-
   }
-
-
 
   private void subscribeToEventBas() {
     eventSubscriber = new Subscriber<Event>() {
@@ -74,12 +71,10 @@ public class ChatPresenterImpl extends BasePresenterImpl<ChatView> implements Ch
         break;
       case DEVICE_CONNECTED:
         isConnected = true;
-
         break;
       case DEVICE_DISCONNECTED:
         isConnected = false;
         break;
-
     }
     updateUI();
   }
@@ -90,20 +85,32 @@ public class ChatPresenterImpl extends BasePresenterImpl<ChatView> implements Ch
     this.chatRepository = chatRepository;
   }
 
+  /**
+   * Connect to chat room (Client mode)
+   * @param bluetoothDevice Device with chat service
+   */
   @Override public void connectToDevice(BluetoothDevice bluetoothDevice) {
     chatProvider.connectToChatOnDevice(bluetoothDevice);
     restoreChatHistory("Mock chat id");
   }
 
+  /**
+   * Restore chat history from repository (Mocked)
+   * @param chatID - chat id
+   */
   private void restoreChatHistory(String chatID) {
-    chatRepository.getMessagesByChatId("mock chat ID").observeOn(AndroidSchedulers.mainThread()).subscribe(messages -> {
+    chatRepository
+        .getMessagesByChatId("mock chat ID")
+        .observeOn(AndroidSchedulers.mainThread()).subscribe(messages -> {
       if (isViewAttached()){
         getView().showChatMessages(messages);
       }
     });
   }
 
-
+  /**
+   * Start chat service (Server mode)
+   */
   @Override public void startChatService() {
     restoreChatHistory("Mock chat id");
     try {
@@ -113,9 +120,12 @@ public class ChatPresenterImpl extends BasePresenterImpl<ChatView> implements Ch
         getView().showError(error);
       }
     }
-
   }
 
+  /**
+   * Send message to chat room
+   * @param text message
+   */
   @Override public void sendMessage(String text) {
     Message message =
         new MessageBuilder()

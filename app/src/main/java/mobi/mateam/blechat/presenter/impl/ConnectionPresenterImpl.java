@@ -3,6 +3,7 @@ package mobi.mateam.blechat.presenter.impl;
 import android.Manifest;
 import android.bluetooth.le.ScanResult;
 import com.tbruyelle.rxpermissions.RxPermissions;
+import mobi.mateam.blechat.R;
 import mobi.mateam.blechat.ble.ChatProvider;
 import mobi.mateam.blechat.bus.EventBus;
 import mobi.mateam.blechat.bus.event.OnDeviceClickEvent;
@@ -38,7 +39,7 @@ public class ConnectionPresenterImpl extends BasePresenterImpl<ConnectionView> i
         }
       } else {
         if (isViewAttached()) {
-          getView().showMessage("Location permission is required");
+          getView().showMessage(getView().getAppContext().getString(R.string.location_required_message));
         }
       }
     });

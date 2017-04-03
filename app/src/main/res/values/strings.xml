@@ -19,4 +19,5 @@
   <string name="btn_send_text">Send</string>
   <string name="chat_uuid">af44319c-148c-11e7-93ae-92361f002671</string>
   <string name="btn_start_new_chat_text">Start new chat</string>
+  <string name="location_required_message">Location permission is required</string>
 </resources>

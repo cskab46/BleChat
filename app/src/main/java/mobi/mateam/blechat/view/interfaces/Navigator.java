@@ -8,6 +8,8 @@ public interface Navigator {
 
   void onDestroy();
 
+  void showStartView();
+
   void showChatView(BluetoothDevice device);
 
   void onBackPressed();

@@ -39,9 +39,7 @@ public class BleScanner {
   public static final int MTU = 512;
   private BluetoothManager mBluetoothManager;
   private BluetoothLeScanner mScanner;
-
   private OnScanResultListener onScanResultListener;
-
   private Context mContext;
   private EventBus eventBus;
   private BluetoothGatt mGatt;
@@ -74,7 +72,6 @@ public class BleScanner {
       this.onScanResultListener = onScanResultListener;
       List<ScanFilter> filters = getScanFiltersByChatService(); // Just devices with running Chat service
       ScanSettings settings = getScanSettings();
-
       mScanner = mBluetoothManager.getAdapter().getBluetoothLeScanner();
       mScanner.startScan(filters, settings, mScanCallback);
     } else {
@@ -89,11 +86,10 @@ public class BleScanner {
   }
 
   @NonNull private List<ScanFilter> getScanFiltersByChatService() {
-    ScanFilter.Builder filterBuilder = new ScanFilter.Builder();
-    filterBuilder.setServiceUuid(new ParcelUuid(UUID.fromString(ChatProvider.CHAT_SERVICE_UUID)));
-    ScanFilter filter = filterBuilder.build();
+    ScanFilter.Builder filterBuilder = new ScanFilter.Builder()
+        .setServiceUuid(new ParcelUuid(UUID.fromString(ChatProvider.CHAT_SERVICE_UUID)));
     List<ScanFilter> filters = new ArrayList<>();
-    filters.add(filter);
+    filters.add(filterBuilder.build());
     return filters;
   }
 

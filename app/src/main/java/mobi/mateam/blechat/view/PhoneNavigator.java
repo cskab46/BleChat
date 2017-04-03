@@ -20,13 +20,14 @@ public class PhoneNavigator implements Navigator {
   }
 
   private void initState() {
-    Fragment f = activity.getSupportFragmentManager().findFragmentById(R.id.container);
-    if (f == null){
+    Fragment fragment = activity.getSupportFragmentManager().findFragmentById(R.id.container);
+    // if fragment null - show stat view as a first state
+    if (fragment == null) {
       showStartView();
     }
   }
 
-  private void showStartView() {
+  @Override public void showStartView() {
     StartFragment fragment = StartFragment.newInstance();
     replaceFragment(fragment);
   }
