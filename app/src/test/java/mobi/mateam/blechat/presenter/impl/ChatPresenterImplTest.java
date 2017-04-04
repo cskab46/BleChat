@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothDevice;
 import mobi.mateam.blechat.ble.ChatProvider;
 import mobi.mateam.blechat.bus.EventBus;
 import mobi.mateam.blechat.model.pojo.Message;
+import mobi.mateam.blechat.model.repository.ChatRepository;
 import mobi.mateam.blechat.presenter.interfaces.ChatPresenter;
 import mobi.mateam.blechat.view.interfaces.ChatView;
 import org.junit.Before;
@@ -31,8 +32,10 @@ import static org.mockito.Mockito.verify;
 
   @Mock ChatView mockChatView;
 
+  @Mock ChatRepository chatRepository;
+
   @Before public void setUp() {
-    chatPresenter = new ChatPresenterImpl(eventBus, mockChatProvider);
+    chatPresenter = new ChatPresenterImpl(eventBus, mockChatProvider, chatRepository);
   }
 
   @Test public void attachView() throws Exception {

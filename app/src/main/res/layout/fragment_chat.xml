@@ -21,15 +21,17 @@
       android:layout_height="wrap_content"
       android:layout_weight="1"
       android:orientation="horizontal"
+      android:layout_margin="5dp"
       >
     <EditText
         android:id="@+id/et_message"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_margin="10dp"
+        android:layout_margin="5dp"
         android:inputType="textAutoCorrect"
         android:layout_weight="1"
+
         />
     <Button
         android:id="@+id/btn_send_message"
