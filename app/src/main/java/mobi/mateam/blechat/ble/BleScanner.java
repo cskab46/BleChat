@@ -82,6 +82,7 @@ public class BleScanner {
 
   private ScanSettings getScanSettings() {
     ScanSettings.Builder settingsBuilder = new ScanSettings.Builder();
+    settingsBuilder.setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY );
     return settingsBuilder.build();
   }
 
@@ -90,6 +91,10 @@ public class BleScanner {
         .setServiceUuid(new ParcelUuid(UUID.fromString(ChatProvider.CHAT_SERVICE_UUID)));
     List<ScanFilter> filters = new ArrayList<>();
     filters.add(filterBuilder.build());
+
+//    filterBuilder = new ScanFilter.Builder()
+//            .setServiceUuid(new ParcelUuid(UUID.fromString(ChatProvider.CHATB_SERVICE_UUID)));
+//    filters.add(filterBuilder.build());
     return filters;
   }
 
@@ -127,7 +132,15 @@ public class BleScanner {
           mGatt.requestMtu(MTU);  // To change 20 bytes limit TODO: Add check input
           Timber.d("Connected to Gatt Server");
           eventBus.post(new ChatStatusChange(ChatStatusChange.DEVICE_CONNECTED, gatt.getDevice()));
-          gatt.discoverServices();
+
+          try {
+            Thread.sleep(600);
+            Timber.d("Delay to discover");
+            gatt.discoverServices();
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          }
+
         } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
           eventBus.post(new ChatStatusChange(ChatStatusChange.DEVICE_DISCONNECTED, gatt.getDevice()));
           Timber.d("Disconnected from Gatt Server");

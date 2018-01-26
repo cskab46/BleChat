@@ -1,14 +1,15 @@
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
 android {
-  compileSdkVersion 25
-  buildToolsVersion "25.0.2"
+  compileSdkVersion 26
+  buildToolsVersion "26.0.2"
   defaultConfig {
     applicationId "mobi.mateam.blechat"
     minSdkVersion 21
-    targetSdkVersion 25
+    targetSdkVersion 26
     versionCode 1
     versionName "1.0"
+    multiDexEnabled true
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
   }
   buildTypes {
@@ -37,10 +38,12 @@ android {
 
 buildscript {
   repositories {
-    mavenCentral()
+      maven {
+          url "https://plugins.gradle.org/m2/"
+      }
   }
   dependencies {
-    classpath 'me.tatarka:gradle-retrolambda:3.5.0'
+    classpath 'gradle.plugin.me.tatarka:gradle-retrolambda:3.7.0'
   }
 }
 

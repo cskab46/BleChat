@@ -27,6 +27,7 @@ import mobi.mateam.blechat.bus.event.ChatStatusChange;
 import mobi.mateam.blechat.bus.event.NewMessage;
 import mobi.mateam.blechat.model.pojo.Message;
 import mobi.mateam.blechat.model.pojo.MessageBuilder;
+import mobi.mateam.blechat.util.Constants;
 import mobi.mateam.blechat.util.StringCompressor;
 import timber.log.Timber;
 
@@ -228,7 +229,7 @@ public class BleAdvertiser {
   //region Service Settings and Data Builders
   @NonNull private AdvertiseSettings.Builder getAdvertisingSettingsBuilder() {
     AdvertiseSettings.Builder settingsBuilder = new AdvertiseSettings.Builder();
-    settingsBuilder.setAdvertiseMode(AdvertiseSettings.ADVERTISE_MODE_BALANCED);
+    settingsBuilder.setAdvertiseMode(AdvertiseSettings.ADVERTISE_MODE_LOW_LATENCY);
     settingsBuilder.setTxPowerLevel(AdvertiseSettings.ADVERTISE_TX_POWER_HIGH);
     settingsBuilder.setConnectable(true);
     return settingsBuilder;
@@ -236,9 +237,12 @@ public class BleAdvertiser {
 
   @NonNull private AdvertiseData.Builder getAdvertisingDataBuilder() {
     AdvertiseData.Builder dataBuilder = new AdvertiseData.Builder();
-    dataBuilder.setIncludeTxPowerLevel(false); //necessity to fit in 31 byte advertisement
+//    dataBuilder.setIncludeTxPowerLevel(false); //necessity to fit in 31 byte advertisement
     dataBuilder.addServiceUuid(new ParcelUuid(UUID.fromString(ChatProvider.CHAT_SERVICE_UUID)));
-    dataBuilder.addServiceData(ParcelUuid.fromString(ChatProvider.CHAT_SERVICE_UUID), Build.DEVICE.getBytes());
+//    dataBuilder.addServiceData(ParcelUuid.fromString(ChatProvider.CHAT_SERVICE_UUID), Build.DEVICE.getBytes());
+    Constants.setDeviceName(bluetoothManager.getAdapter().getName());
+    dataBuilder.addServiceData(ParcelUuid.fromString(ChatProvider.CHAT_SERVICE_UUID),Constants.getDeviceName().getBytes());
+
     return dataBuilder;
   }
   //endregion

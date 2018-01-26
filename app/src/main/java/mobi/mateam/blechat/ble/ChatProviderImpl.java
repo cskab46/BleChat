@@ -2,6 +2,7 @@ package mobi.mateam.blechat.ble;
 
 import android.bluetooth.BluetoothDevice;
 import mobi.mateam.blechat.model.pojo.Message;
+import timber.log.Timber;
 
 public class ChatProviderImpl implements ChatProvider {
 
@@ -16,6 +17,7 @@ public class ChatProviderImpl implements ChatProvider {
 
   @Override public void startChatRoom() throws IllegalStateException {
     isServer = true;
+    Timber.d("Let's start chat!");
     bleAdvertiser.startAdvertising();
   }
 

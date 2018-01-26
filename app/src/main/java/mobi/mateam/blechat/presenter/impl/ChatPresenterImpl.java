@@ -13,6 +13,7 @@ import mobi.mateam.blechat.model.pojo.Message;
 import mobi.mateam.blechat.model.pojo.MessageBuilder;
 import mobi.mateam.blechat.model.repository.ChatRepository;
 import mobi.mateam.blechat.presenter.interfaces.ChatPresenter;
+import mobi.mateam.blechat.util.Constants;
 import mobi.mateam.blechat.view.interfaces.ChatView;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -131,7 +132,8 @@ public class ChatPresenterImpl extends BasePresenterImpl<ChatView> implements Ch
         new MessageBuilder()
             .setId(UUID.randomUUID().toString())
             .setIsIncoming(false)
-            .setSenderName(Build.DEVICE)
+//            .setSenderName(Build.DEVICE)
+            .setSenderName(Constants.getDeviceName())
             .setTime(Calendar.getInstance().getTimeInMillis())
             .setText(text).createMessage();
 

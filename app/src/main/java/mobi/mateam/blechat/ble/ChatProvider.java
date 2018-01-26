@@ -5,6 +5,7 @@ import mobi.mateam.blechat.model.pojo.Message;
 
 public interface ChatProvider {
   String CHAT_SERVICE_UUID = "d68db8ac-9caf-4b52-aa66-1998a90cf0cb";
+//  String CHATB_SERVICE_UUID = "0000b81d-0000-1000-8000-00805f9b34fb";
   String CHAT_CHARACTERISTIC_UUID = "bed5e61f-f04c-472e-acf4-50e4649c62cd";
   String ONLINE_STATUS = "user online";
   String OFFLINE_STATUS = "user offline";
